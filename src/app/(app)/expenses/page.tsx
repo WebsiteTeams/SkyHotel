@@ -7,6 +7,7 @@ import { Confirm, Empty, ErrorBox, Field, Loading, Modal, PageHeader, Pagination
 import { ImageUpload } from "@/components/image-upload";
 import { api, downloadCSV, fmtDate, isoDay, qs, useApi } from "@/lib/client";
 import { fmtINR } from "@/lib/money";
+import { IMAGE_OR_PDF_ACCEPT } from "@/lib/upload-types";
 
 const CATS = ["Rent", "Electricity", "Water", "Staff salary", "Transportation", "Maintenance", "Other"];
 const blank = { category: "Rent", amount: "", method: "cash", date: isoDay(), description: "", receipt: "" };
@@ -64,7 +65,7 @@ export default function Expenses() {
           <Field label="Payment method"><select className={inputCls} value={form.method} onChange={(e) => set("method", e.target.value)}><option value="cash">Cash</option><option value="upi">UPI</option><option value="card">Card</option><option value="bank">Bank</option></select></Field>
           <Field label="Date" error={errs.date}><input className={inputCls} type="date" value={form.date} onChange={(e) => set("date", e.target.value)} /></Field>
           <Field label="Description" className="sm:col-span-2"><input className={inputCls} value={form.description} onChange={(e) => set("description", e.target.value)} /></Field>
-          <div className="sm:col-span-2"><p className="mb-1.5 text-sm font-medium">Receipt</p><ImageUpload value={form.receipt} onChange={(u) => set("receipt", u)} label="Attach receipt" accept="image/png,image/jpeg,image/webp,application/pdf" /></div>
+          <div className="sm:col-span-2"><p className="mb-1.5 text-sm font-medium">Receipt</p><ImageUpload value={form.receipt} onChange={(u) => set("receipt", u)} label="Attach receipt" accept={IMAGE_OR_PDF_ACCEPT} /></div>
         </div>}
       </Modal>
       <Confirm open={!!del} danger title="Delete expense?" message={`${del?.category} · ${del ? fmtINR(del.amount) : ""}. This is recorded in the audit log.`} confirmLabel="Delete" onClose={() => setDel(null)}

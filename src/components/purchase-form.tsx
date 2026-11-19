@@ -8,6 +8,7 @@ import { ImageUpload } from "@/components/image-upload";
 import { api, isoDay, useApi } from "@/lib/client";
 import { fmtINR } from "@/lib/money";
 import { compatibleUnits, type Unit } from "@/lib/units";
+import { IMAGE_OR_PDF_ACCEPT } from "@/lib/upload-types";
 
 interface Row { item: string; quantity: string; unit: Unit; rate: string; expiryDate: string }
 
@@ -83,7 +84,7 @@ export function PurchaseForm({ id, initial, onClose, onSaved }: { id?: string; i
               <Field label="Method"><select className={inputCls} value={f.method} onChange={(e) => set("method", e.target.value)}><option value="cash">Cash</option><option value="upi">UPI</option><option value="card">Card</option><option value="bank">Bank</option></select></Field>
             </div>}
             <Field label="Notes"><input className={inputCls} value={f.notes} onChange={(e) => set("notes", e.target.value)} /></Field>
-            <div><p className="mb-1.5 text-sm font-medium">Invoice document</p><ImageUpload value={f.attachment} onChange={(u) => set("attachment", u)} label="Attach invoice" accept="image/png,image/jpeg,image/webp,application/pdf" /></div>
+            <div><p className="mb-1.5 text-sm font-medium">Invoice document</p><ImageUpload value={f.attachment} onChange={(u) => set("attachment", u)} label="Attach invoice" accept={IMAGE_OR_PDF_ACCEPT} /></div>
           </div>
           <div className="space-y-2 self-start rounded-xl bg-secondary p-4 text-sm tabular-nums">
             <div className="flex justify-between"><span>Subtotal</span><span>{fmtINR(subtotal)}</span></div>
